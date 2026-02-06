@@ -85,6 +85,7 @@ export class WidgetSimpleLinearComponent {
       untracked(() => {
         this.streams.observe('gaugePath', pkt => {
           const theme = this.theme();
+          console.log('[simple-linear] value=', pkt?.data?.value, 'state=', pkt?.state);
           if (!cfg || !theme) return;
           const raw = pkt?.data?.value as number | null;
             // Clamp & label formatting
@@ -102,12 +103,19 @@ export class WidgetSimpleLinearComponent {
             if (s && s !== this.lastState) {
               this.lastState = s;
               switch (s) {
-                case States.Alarm: this.barColor.set(theme.zoneAlarm); break;
+                case States.Emergency:
+                 console.log('[simple-linear] EMERGENCY ->', theme.zoneEmergency);
+                 this.barColor.set(theme.zoneEmergency);
+                 break;case States.Alarm: this.barColor.set(theme.zoneAlarm); break;
                 case States.Warn: this.barColor.set(theme.zoneWarn); break;
                 case States.Alert: this.barColor.set(theme.zoneAlert); break;
-                case States.Nominal: this.barColor.set(theme.zoneNominal); break;
+                case States.Nominal:
+                 console.log('[simple-linear] NOMINAL ->', theme.zoneNominal);
+                 this.barColor.set(theme.zoneNominal);
+                 break;
                 default: this.barColor.set(getColors(cfg.color, theme).color); break;
               }
+
             }
           }
         });
@@ -131,12 +139,14 @@ export class WidgetSimpleLinearComponent {
           this.barColor.set(palette.color);
         } else if (this.lastState) {
           switch (this.lastState) {
+            case States.Emergency: this.barColor.set(theme.zoneEmergency); break;
             case States.Alarm: this.barColor.set(theme.zoneAlarm); break;
             case States.Warn: this.barColor.set(theme.zoneWarn); break;
             case States.Alert: this.barColor.set(theme.zoneAlert); break;
             case States.Nominal: this.barColor.set(theme.zoneNominal); break;
             default: this.barColor.set(palette.color); break;
           }
+
         } else {
           // no state yet
           this.barColor.set(palette.color);

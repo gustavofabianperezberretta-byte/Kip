@@ -196,26 +196,45 @@ export class WidgetGaugeNgRadialComponent implements AfterViewInit {
 
         const option: RadialGaugeOptions = {};
         switch (state) {
+          case States.Emergency:
+            option.colorBorderMiddle = theme.cardColor;
+            option.colorBarProgress = theme.zoneEmergency;
+            option.colorValueText = theme.zoneEmergency;
+            break;
+
           case States.Alarm:
             option.colorBorderMiddle = theme.cardColor;
             option.colorBarProgress = theme.zoneAlarm;
             option.colorValueText = theme.zoneAlarm;
             break;
+
           case States.Warn:
             option.colorBorderMiddle = theme.cardColor;
             option.colorBarProgress = theme.zoneWarn;
             option.colorValueText = theme.zoneWarn;
             break;
+
           case States.Alert:
             option.colorBorderMiddle = theme.cardColor;
             option.colorBarProgress = theme.zoneAlert;
             option.colorValueText = theme.zoneAlert;
             break;
+
+          case States.Nominal:
+            option.colorBorderMiddle = theme.cardColor;
+            option.colorBarProgress = theme.zoneNominal;
+            option.colorValueText = theme.zoneNominal;
+            break;
+
           default:
             option.colorBorderMiddle = theme.cardColor;
-            option.colorBarProgress = cfg.gauge?.subType === 'measuring' ? getColors(cfg.color, theme).color : getColors(cfg.color, theme).dim;
+            option.colorBarProgress =
+              cfg.gauge?.subType === 'measuring'
+                ? getColors(cfg.color, theme).color
+                : getColors(cfg.color, theme).dim;
             option.colorValueText = getColors(cfg.color, theme).color;
         }
+
         try {
           this.ngGauge()?.update(option);
         } catch { /* ignore */}
