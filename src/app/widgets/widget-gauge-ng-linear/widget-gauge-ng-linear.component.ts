@@ -174,8 +174,6 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
       untracked(() => {
         const cfg = this.runtime.options();
         const theme = this.theme();
-        const cfg = this.runtime.options();
-        const theme = this.theme();
         if (!cfg || !theme) return;
         if (cfg.ignoreZones) return;
 
@@ -224,7 +222,7 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
             }
             break;
 
-          case States.Normal: // <- este es el “Nominal” de SignalK
+          case States.Nominal:
             if (enableNeedle) {
               opt.colorNeedle = theme.zoneNominal;
               opt.colorValueText = theme.zoneNominal;
