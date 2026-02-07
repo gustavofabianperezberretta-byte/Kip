@@ -174,12 +174,26 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
       untracked(() => {
         const cfg = this.runtime.options();
         const theme = this.theme();
+        const cfg = this.runtime.options();
+        const theme = this.theme();
+        if (!cfg || !theme) return;
         if (cfg.ignoreZones) return;
+
 
         const opt: LinearGaugeOptions = {};
         const enableNeedle = cfg.gauge?.enableNeedle;
         const palette = getColors(cfg.color, theme);
         switch (state) {
+          case States.Emergency:
+            if (enableNeedle) {
+              opt.colorNeedle = theme.zoneEmergency;
+              opt.colorValueText = theme.zoneEmergency;
+            } else {
+              opt.colorBarProgress = theme.zoneEmergency;
+              opt.colorValueText = theme.zoneEmergency;
+            }
+            break;
+
           case States.Alarm:
             if (enableNeedle) {
               opt.colorNeedle = theme.zoneAlarm;
@@ -189,6 +203,7 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
               opt.colorValueText = theme.zoneAlarm;
             }
             break;
+
           case States.Warn:
             if (enableNeedle) {
               opt.colorNeedle = theme.zoneWarn;
@@ -198,6 +213,7 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
               opt.colorValueText = theme.zoneWarn;
             }
             break;
+
           case States.Alert:
             if (enableNeedle) {
               opt.colorNeedle = theme.zoneAlert;
@@ -207,6 +223,17 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
               opt.colorValueText = theme.zoneAlert;
             }
             break;
+
+          case States.Normal: // <- este es el “Nominal” de SignalK
+            if (enableNeedle) {
+              opt.colorNeedle = theme.zoneNominal;
+              opt.colorValueText = theme.zoneNominal;
+            } else {
+              opt.colorBarProgress = theme.zoneNominal;
+              opt.colorValueText = theme.zoneNominal;
+            }
+            break;
+
           default:
             if (enableNeedle) {
               opt.colorNeedle = palette.color;
@@ -216,6 +243,7 @@ export class WidgetGaugeNgLinearComponent implements AfterViewInit {
               opt.colorValueText = palette.color;
             }
         }
+        
         try {
           this.ngGauge()?.update(opt);
         } catch { /* ignore */ }
