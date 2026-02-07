@@ -2,6 +2,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "skipLibCheck": true,
     "outDir": "../plugin",
     "types": [],
     "resolveJsonModule": true,

@@ -119,6 +119,7 @@
   "dependencies": {
     "@godind/canvas-gauges": "^2.2.1",
     "@signalk/server-api": "^2.7.2",
+    "baconjs": "^3.0.23",
     "marked": "^17.0.1"
   }
 }
